@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  n8n:
+    build: ./n8n
+    container_name: n8n
+    restart: always
+    ports:
+      - "5678:5678"
+    environment:
+      # Persistent data
+      - DB_SQLITE=./data/database.sqlite
+      - N8N_BASIC_AUTH_ACTIVE=true
+      - GENERIC_TIMEZONE=Asia/Dubai
+      - N8N_HOST=localhost
+      - N8N_PORT=5678
+      - NODE_ENV=production
+    volumes:
+      - ./n8n/data:/home/node/.n8n

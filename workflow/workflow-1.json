@@ -1,0 +1,74 @@
+{
+  "name": "HR Assistant",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "hr-onboard",
+        "responseMode": "lastNode",
+        "responseData": "allEntries",
+        "options": {}
+      },
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "fromEmail": "your-email@gmail.com",
+        "toEmail": "={{$json[\"email\"]}}",
+        "subject": "Welcome to the Company, {{$json[\"name\"]}}!",
+        "text": "Hi {{$json[\"name\"]}},\n\nWelcome onboard! We are excited to have you.",
+        "html": "<p>Hi {{$json[\"name\"]}},</p><p>Welcome onboard! We are excited to have you.</p>"
+      },
+      "name": "Send Email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 1,
+      "position": [550, 200]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "sheetId": "YOUR_GOOGLE_SHEET_ID",
+        "range": "Sheet1",
+        "valueInputMode": "RAW",
+        "options": {},
+        "columns": ["Name", "Email"],
+        "data": [
+          {
+            "Name": "={{$json[\"name\"]}}",
+            "Email": "={{$json[\"email\"]}}"
+          }
+        ]
+      },
+      "name": "Add to Google Sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 1,
+      "position": [550, 400]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Send Email",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Add to Google Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}
+
+
+
+
+
