@@ -68,6 +68,15 @@ export default function Sidebar() {
               {isOpen && <span className="font-medium">Leave Requests</span>}
             </div>
           </Link>
+
+          <Link href="/leave-request/requests">
+            <div className="flex items-center space-x-3 hover:bg-blue-100 p-2 rounded-md cursor-pointer">
+              <FiList size={20} />
+              {isOpen && <span className="font-medium">New Job</span>}
+            </div>
+          </Link>
+
+
         </nav>
       </div>
 
